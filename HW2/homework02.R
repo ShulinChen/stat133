@@ -14,7 +14,7 @@
 
 
 # Write your name
-# Name:
+# Name:Shulin
 
 
 
@@ -36,7 +36,7 @@
 # (your 'destfile' will probably be different!)
 download.file(
   url = 'https://raw.githubusercontent.com/gastonstat/stat133/master/datasets/tents1.csv', 
-  destfile = '~/Downloads/tents1.csv')
+  destfile = '/Users/Shulin/programming/stat133/stat133-git/HW2/tents1.csv')
 
 
 # Importing Option 1:
@@ -87,7 +87,9 @@ download.file(
 # - bestuse:  character
 # - seasons:  character
 # - capacity: character
-
+library(readr)
+tents_url <- '/Users/Shulin/programming/stat133/stat133-git/HW2/tents1.csv'
+tents <- read_csv(tents_url, col_name = TRUE, col_types = 'ccddiccc')
 
 
 
@@ -100,25 +102,25 @@ download.file(
 
 
 # inspect the data structure of 'tents'
-
+str(tents)
 
 # check the class of the object 'tents'
-
+class(tents)
 
 # how many rows in the dataset?
-
+nrow(tents)
 
 # how many columns in the dataset?
-
+ncol(tents)
 
 # names of columns
-
+colnames(tents)
 
 # take a look at the first 5 rows
-
+head(tents, 5)
 
 # take a look at the last 3 rows
-
+tail(tents, 3)
 
 
 
@@ -133,68 +135,78 @@ download.file(
 
 
 # get numeric summaries of each quantitative variable
-
+summary(tents$price)
+summary(tents$weight)
+summary(tents$height)
 
 # instead of using the summary() function, find functions
 # that allow you to get the following summaries for 'price'
 # - minimum value
+min(tents$price)
 # - first quartile (i.e. 25th percentile)
+quantile(tents$price, 0.25)
 # - median value (i.e. 50th percentile)
+median(tents$price)
 # - mean value
+mean(tents$price)
 # - third quartile (i.e. 75th percentile)
+quantile(tents$price, 0.75)
 # - maximum value
+max(tents$price)
 # - inter-quartile range (IQR)
+IQR(tents$price)
 # - standard deviation
-
+sd(tents$price)
 
 # weight is given in grams;
 # add a new variable 'weight_lbs' to 'tents' for weight in pounds
+tents$weight_lbs <- tents$weight * 0.00220462 
 
 
 # height is given in centimeters;
 # add a new variable 'height_in' to 'tents' for height in inches
-
+tents$height_in = tents$height * 0.3937010
 
 # how many tents have a price greater than $400
-
+sum(tents$price > 400)
 
 # how many tents have a price less than or equal to $300
-
+sum(tents$price <= 300)
 
 # how many tents have a price between $300 and $400
 # (including both $300 and $400 prices)
-
-
-
+sum(tents$price <= 400 & tents$price >= 300)
 
 # what's the name of the tent with maximum price
-
+tents$name[which.max(tents$price)]
 
 # what's the name of the tent with minimum price
-
+tents$name[which.min(tents$price)]
 
 # what's the name of the tent with maximum weight
-
+tents$name[which.max(tents$weight)]
 
 # what's the name of the tent with minimum weight
+tents$name[which.min(tents$weight)]
 
 
 # select the data of tents with 
 # price > $400 AND weight < 1500 grams
-
-
-
+#since it's a df, we need rows and cols
+tents[tents$price > 400 & tents$weight < 1500, ]
 
 # calculate the 90th percentile for height and 
 # assign it to the object 'height_p90'
-
+height_p90 <- quantile(tents$height, .90)
 
 # calculate the 90th percentile for weight and 
 # assign it to the object 'weight_p90'
+weight_p90 <- quantile(tents$weight, .90)
 
 
 # select the data of tents with 
 # height > height_p90 AND weight > weight_p90
+tents[tents$height > height_p90 & tents$weight > weight_p90, ]
 
 
 
@@ -203,7 +215,8 @@ download.file(
 # the data of those tents with brand 'rei';
 # and inspect its dimension
 
-
+#toLook
+rei <- data.frame(tents[tents$brand == "rei",])
 
 
 # Use the cut() function to create a factor 'price_cut' from 
@@ -217,10 +230,10 @@ download.file(
 #  (400, 500]
 #  (500, 600]
 #  (600, 700]
-
+price_cut <- cut(tents$price, breaks= seq(0,700,by=100))
 
 # use table() to check the obtained frequencies of 'price_cut'
-
+table(price_cut)
 
 
 
@@ -244,7 +257,8 @@ download.file(
 # verify that the frequencies given by table(weight_cut) are:
 # 1kg 2kg 3kg 4kg 5kg 6kg 7kg 8kg 9kg 
 #   3  24  30   7   7   2   9   3   3 
-
+weight_cut <- cut(tents$weight, breaks = seq(0,9000,1000))
+table(weight_cut)
 
 
 
@@ -258,14 +272,14 @@ download.file(
 # (look at each graphic carefully and see what types 
 # of distribution patterns show each variable)
 # =====================================================
+hist(tents$price, col = "blue")
+hist(tents$weight, col = "purple")
 
+boxplot(tents$price, horizontal = TRUE, main = "Price")
+boxplot(tents$weight, horizontal = TRUE, main = "Weight")
 
-
-
-
-
-
-
+plot(density(tents$price))
+plot(density(tents$weight))
 
 
 # Obtain scatter plots of:
@@ -273,11 +287,14 @@ download.file(
 # price, weight
 # height, weight
 
+plot(tents$price, tents$height)
+plot(tents$price, tents$weight)
+plot(tents$height, tents$weight)
 
 
 
 # Obtain a scatter plot matrix of price, height, and weight
-
+pairs(tents[ , 3:5])
 
 
 
@@ -294,6 +311,21 @@ download.file(
 # - x-axis ranges from 0 to 10000
 # - y-axis ranges from 80 to 220
 # - Include a title
+plot.new()
+#given the xy limit of the graoh
+plot.window(xlim = c(0, 10000), ylim = c(80, 220))
+#add an axis below
+axis(side = 1, at = seq(0,10000,2000))
+#add an left axis
+axis(side = 2, at = seq(80, 220, 20))
+
+mtext('Weight', side = 1, line = 3)
+mtext('Height', side = 2, line = 2.5)
+points(tents$weight, tents$height, pch = 25, col = '#CC00FF', cex = 1.3)
+text(tents$weight, tents$height, labels = abbreviate(tents$weight), 
+     col = '#99FFCC', cex = 0.9, pos = 4)
+title('Weight and Height')
+
 
 
 
@@ -312,25 +344,32 @@ download.file(
 
 
 # get frequency tables of each qualitative variable
+table(tents$brand)
+table(tents$bestuse)
+table(tents$seasons)
+table(tents$capacity)
 
 
 # what is the brand with less number of tents
-
+least_tent <- sort(table(tents$brand), decreasing = FALSE)
+least_tent[1]
 
 # are there any tents of brand 'rei'?
 # and if so, how many?
-
+is.element('rei', tents$brand)
+sum(tents$brand == "rei")
 
 # are there any tents of brand 'mountain-hardwear'
 # and if so, how many?
-
+is.element('mountain-hardwear', tents$brand)
+sum(tents$brand == "mountain-hardwear")
 
 # how many 'rei' tents are intended to be
 # used ('bestuse') for Mountaineering
-
+sum(tents$brand == "rei" & tents$bestuse == "Mountaineering")
 
 # what unique brands have tents intended to be used for 'Mountaineering'
-
+unique(tents$brand[(tents$bestuse == "Mountaineering")])
 
 
 
@@ -344,15 +383,15 @@ download.file(
 # - pie chart
 # (feel free to change colors, add titles, and rank values)
 # =====================================================
-
-
-
-
-
-
-
-
-
+barplot(table(tents$bestuse))
+barplot(table(tents$seasons))
+barplot(table(tents$capacity))
+dotchart(table(tents$bestuse))
+dotchart(table(tents$seasons))
+dotchart(table(tents$capacity))
+pie(table(tents$bestuse))
+pie(table(tents$seasons))
+pie(table(tents$capacity))
 
 # =====================================================
 # Plot challenge: 
@@ -367,7 +406,9 @@ download.file(
 # - x-axis ranges from 0 to 25
 # - include a title
 
-
+par(mar=c(2,2,1,1))
+barplot(sort(table(tents$brand)), horiz=TRUE, las=2, border=NA, xlim=c(0,25),
+        main="Brand")
 
 
 
@@ -380,17 +421,15 @@ download.file(
 
 
 # summary of 'price' of big-agnes tents
-
+summary(tents[tents$brand == "big-agnes", "price"])
 
 # summary of 'price' of rei tents
-
+summary(tents[tents$brand == "rei", "price"])
 
 # cross-table of seasons and bestuse
-
-
-
-
-
+# install.packages("gmodels") if you dont have such library installed yet.
+library(gmodels)
+CrossTable(tents$seasons, tents$bestuse)
 
 # =====================================================
 # Bivariate Plots
@@ -404,17 +443,22 @@ download.file(
 # - capacity
 # - seasons
 # (get a boxplot for each categorical variable)
+boxplot(weight~brand, data = tents, main = "Weight and Brand")
+boxplot(weight~bestuse, data = tents, main = "Weight and Bestuse")
+boxplot(weight~capacity, data = tents, main = "Weight and Capacity")
+boxplot(weight~seasons, data = tents, main = "Weight and Seasons")
+
 
 
 
 
 # make a scatter-plot of height and weight, using 
 # 'capacity' as a factor for the color argument
-
+plot(tents$height, tents$weight, col = factor(tents$capacity))
 
 # get the same scatter plot but now pass 'bestuse'
 # as a factor for the color argument
-
+plot(tents$height, tents$weight, col = factor(tents$bestuse))
 
 # remember that factors are internally stored as
 # integer vectors. To get the integers associated to the 
@@ -424,7 +468,7 @@ download.file(
 # make the same scatter plot, using 'bestuse' as factor for colors,
 # and using the integers associated to factor 'bestuse' for the
 # argument that changes the type of plotted symbol
-
+plot(tents$height, tents$weight, col = factor(tents$bestuse), pch = unclass(factor(tents$bestuse)))
 
 
 
@@ -437,11 +481,15 @@ download.file(
 
 # obtain a new data frame called 'big_agnes'
 # by subsetting tents of brand 'big-agnes'
-
+big_agnes <- subset(tents, brand == "big-agnes")
 
 # create a vector of colors for big-agnes tents according to 'bestuse':
 # 'Carcamping' tents in color 'tomato'
 # 'Backpacking' tents in color 'orange'
+colors <- c(big_agnes$bestuse)
+colors[big_agnes$bestuse == "Carcamping"] <- "tomato"
+colors[big_agnes$bestuse == "Backpacking"] <- "orange"
+big_agnes$color <- colors
 
 
 # Make a scatter plot of 'weight' and 'height' (of 'big-agnes' tents)
@@ -452,6 +500,12 @@ download.file(
 # 'bestuse' types and their corresponding colors
 # Add a title
 
-
-
+par(bg = "gray95")
+#type='n' here is to erase the points inside the graph
+plot(big_agnes$weight, big_agnes$height, main = "weight and height",
+    type="n")
+legend(6850, 130, legend=c("Carcamping", "Backpacking"),
+       col=c("tomato", "orange"), lty=1:2, cex=0.8)
+text(big_agnes$weight, big_agnes$height, labels=big_agnes$name, cex= 0.8,  
+     col = big_agnes$color)
 

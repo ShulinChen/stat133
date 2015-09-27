@@ -1,0 +1,495 @@
+> source('~/programming/stat133/stat133-git/HW2/homework02.R', echo=TRUE)
+
+> # =====================================================
+> # Stat133: HW2
+> # Author(s): Gaston Sanchez
+> # Description: This assignment has 3 main p .... [TRUNCATED] 
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100  5870  100  5870    0     0   7494      0 --:--:-- --:--:-- --:--:--  7487
+
+> # Importing Option 1:
+> # Use read.csv() to import 'tents1.csv' and assign it to
+> # an object called 'tdf1'
+> 
+> 
+> 
+> 
+> # Importing Option 2:
+> # .... [TRUNCATED] 
+
+> tents_url <- '/Users/Shulin/programming/stat133/stat133-git/HW2/tents1.csv'
+
+> tents <- read_csv(tents_url, col_name = TRUE, col_types = 'ccddiccc')
+
+> # =====================================================
+> # Inspecting data frames
+> # =====================================================
+> # Onc .... [TRUNCATED] 
+Classes ‘tbl_df’, ‘tbl’ and 'data.frame':	90 obs. of  8 variables:
+ $ name    : chr  "fly-creek-ul2" "fly-creek-ul3" "salida-2" "jack-rabbit-sl3" ...
+ $ brand   : chr  "big-agnes" "big-agnes" "kelty" "big-agnes" ...
+ $ price   : num  350 450 160 360 149 ...
+ $ weight  : num  960 1450 1700 2160 2210 1530 2690 1840 3200 850 ...
+ $ height  : int  96 107 102 107 107 107 117 114 122 97 ...
+ $ bestuse : chr  "Backpacking" "Backpacking" "Backpacking" "Backpacking" ...
+ $ seasons : chr  "3-season" "3-season" "3-season" "3-season" ...
+ $ capacity: chr  "2-person" "3-person" "2-person" "3-person" ...
+
+> # check the class of the object 'tents'
+> class(tents)
+[1] "tbl_df"     "tbl"        "data.frame"
+
+> # how many rows in the dataset?
+> nrow(tents)
+[1] 90
+
+> # how many columns in the dataset?
+> ncol(tents)
+[1] 8
+
+> # names of columns
+> colnames(tents)
+[1] "name"     "brand"    "price"    "weight"   "height"   "bestuse" 
+[7] "seasons"  "capacity"
+
+> # take a look at the first 5 rows
+> head(tents, 5)
+             name     brand  price weight height     bestuse  seasons
+1   fly-creek-ul2 big-agnes 349.95    960     96 Backpacking 3-season
+2   fly-creek-ul3 big-agnes 449.95   1450    107 Backpacking 3-season
+3        salida-2     kelty 159.95   1700    102 Backpacking 3-season
+4 jack-rabbit-sl3 big-agnes 359.95   2160    107 Backpacking 3-season
+5       passage-2       rei 149.00   2210    107 Backpacking 3-season
+  capacity
+1 2-person
+2 3-person
+3 2-person
+4 3-person
+5 2-person
+
+> # take a look at the last 3 rows
+> tail(tents, 3)
+              name      brand  price weight height    bestuse  seasons
+88 docking-station north-face 429.00 6718.8    175 Carcamping 3-season
+89     hacienda-6p     marmot 599.00 9553.8    203 Carcamping 3-season
+90    hula-house-4      kelty 299.95 5414.8    183 Carcamping 3-season
+   capacity
+88 6-person
+89 6-person
+90 4-person
+
+> # =====================================================
+> # Quantitative Variables:
+> # =====================================================
+> # Ex .... [TRUNCATED] 
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+   99.5   261.5   344.5   349.2   400.0   700.0 
+
+> summary(tents$weight)
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+    850    1855    2405    3395    4756    9554 
+
+> summary(tents$height)
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+   90.0   102.0   112.0   125.8   151.5   203.0 
+
+> # instead of using the summary() function, find functions
+> # that allow you to get the following summaries for 'price'
+> # - minimum value
+> min(te .... [TRUNCATED] 
+[1] 99.5
+
+> # - first quartile (i.e. 25th percentile)
+> quantile(tents$price, 0.25)
+  25% 
+261.5 
+
+> # - median value (i.e. 50th percentile)
+> median(tents$price)
+[1] 344.475
+
+> # - mean value
+> mean(tents$price)
+[1] 349.1556
+
+> # - third quartile (i.e. 75th percentile)
+> quantile(tents$price, 0.75)
+   75% 
+399.95 
+
+> # - maximum value
+> max(tents$price)
+[1] 699.95
+
+> # - inter-quartile range (IQR)
+> IQR(tents$price)
+[1] 138.45
+
+> # - standard deviation
+> sd(tents$price)
+[1] 120.2294
+
+> # weight is given in grams;
+> # add a new variable 'weight_lbs' to 'tents' for weight in pounds
+> tents$weight_lbs <- tents$weight * 0.00220462 
+
+> # height is given in centimeters;
+> # add a new variable 'height_in' to 'tents' for height in inches
+> tents$height_in = tents$height * 0.3937010
+
+> # how many tents have a price greater than $400
+> sum(tents$price > 400)
+[1] 22
+
+> # how many tents have a price less than or equal to $300
+> sum(tents$price <= 300)
+[1] 38
+
+> # how many tents have a price between $300 and $400
+> # (including both $300 and $400 prices)
+> sum(tents$price <= 400 & tents$price >= 300)
+[1] 30
+
+> # what's the name of the tent with maximum price
+> tents$name[which.max(tents$price)]
+[1] "backcountry-barn"
+
+> # what's the name of the tent with minimum price
+> tents$name[which.min(tents$price)]
+[1] "camp-dome-2"
+
+> # what's the name of the tent with maximum weight
+> tents$name[which.max(tents$weight)]
+[1] "hacienda-6p"
+
+> # what's the name of the tent with minimum weight
+> tents$name[which.min(tents$weight)]
+[1] "fly-creek-ul1"
+
+> # select the data of tents with 
+> # price > $400 AND weight < 1500 grams
+> #since it's a df, we need rows and cols
+> tents[tents$price > 400 & tent .... [TRUNCATED] 
+              name     brand  price weight height     bestuse  seasons
+2    fly-creek-ul3 big-agnes 449.95   1450    107 Backpacking 3-season
+43 carbon-reflex-2       msr 499.95   1220    100 Backpacking 3-season
+51 carbon-reflex-1       msr 449.95    960     94 Backpacking 3-season
+   capacity weight_lbs height_in
+2  3-person   3.196699  42.12601
+43 2-person   2.689636  39.37010
+51 1-person   2.116435  37.00789
+
+> # calculate the 90th percentile for height and 
+> # assign it to the object 'height_p90'
+> height_p90 <- quantile(tents$height, .90)
+
+> # calculate the 90th percentile for weight and 
+> # assign it to the object 'weight_p90'
+> weight_p90 <- quantile(tents$weight, .90)
+
+> # select the data of tents with 
+> # height > height_p90 AND weight > weight_p90
+> tents[tents$height > height_p90 & tents$weight > weight_p90, ]
+               name      brand  price weight height    bestuse  seasons
+68        kingdom-6        rei 399.00 7796.1    188 Carcamping 3-season
+70      base-camp-6        rei 399.00 7796.1    188 Carcamping 3-season
+85 mountain-manor-6 north-face 529.00 9383.7    188 Carcamping 3-season
+87     hula-house-6      kelty 399.95 8306.4    193 Carcamping 3-season
+89      hacienda-6p     marmot 599.00 9553.8    203 Carcamping 3-season
+   capacity weight_lbs height_in
+68 6-person   17.18744  74.01579
+70 6-person   17.18744  74.01579
+85 6-person   20.68749  74.01579
+87 6-person   18.31246  75.98429
+89 6-person   21.06250  79.92130
+
+> # obtain a new data frame called 'rei' containing
+> # the data of those tents with brand 'rei';
+> # and inspect its dimension
+> 
+> #toLook
+> rei <-  .... [TRUNCATED] 
+
+> # Use the cut() function to create a factor 'price_cut' from 
+> # all the tent prices;
+> # for the argument 'breaks' give a vector of cutting points .... [TRUNCATED] 
+
+> # use table() to check the obtained frequencies of 'price_cut'
+> table(price_cut)
+price_cut
+  (0,100] (100,200] (200,300] (300,400] (400,500] (500,600] (600,700] 
+        1        13        24        30        15         6         1 
+
+> # Use cut() to create a factor 'weight_cut' by using the
+> # breaking points and labels according to the following table:
+> # ---------------------- .... [TRUNCATED] 
+
+> table(weight_cut)
+weight_cut
+    (0,1e+03] (1e+03,2e+03] (2e+03,3e+03] (3e+03,4e+03] (4e+03,5e+03] 
+            3            24            30             7             7 
+(5e+03,6e+03] (6e+03,7e+03] (7e+03,8e+03] (8e+03,9e+03] 
+            2             9             3             3 
+
+> # =====================================================
+> # Statistical graphics of Quantitative Variables
+> # ===================================== .... [TRUNCATED] 
+
+> hist(tents$weight, col = "purple")
+
+> boxplot(tents$price, horizontal = TRUE, main = "Price")
+
+> boxplot(tents$weight, horizontal = TRUE, main = "Weight")
+
+> plot(density(tents$price))
+
+> plot(density(tents$weight))
+
+> # Obtain scatter plots of:
+> # price, height
+> # price, weight
+> # height, weight
+> 
+> plot(tents$price, tents$height)
+
+> plot(tents$price, tents$weight)
+
+> plot(tents$height, tents$weight)
+
+> # Obtain a scatter plot matrix of price, height, and weight
+> pairs(tents[ , 3:5])
+
+> # =====================================================
+> # Plot challenge: 
+> # Here's a small graphic challenge; you'll need to 
+> # read the docu .... [TRUNCATED] 
+
+> #given the xy limit of the graoh
+> plot.window(xlim = c(0, 10000), ylim = c(80, 220))
+
+> #add an axis below
+> axis(side = 1, at = seq(0,10000,2000))
+
+> #add an left axis
+> axis(side = 2, at = seq(80, 220, 20))
+
+> mtext('Weight', side = 1, line = 3)
+
+> mtext('Height', side = 2, line = 2.5)
+
+> points(tents$weight, tents$height, pch = 25, col = '#CC00FF', cex = 1.3)
+
+> text(tents$weight, tents$height, labels = abbreviate(tents$weight), 
++      col = '#99FFCC', cex = 0.9, pos = 4)
+
+> title('Weight and Height')
+
+> # =====================================================
+> # Qualitative Variables
+> # =====================================================
+> # Now  .... [TRUNCATED] 
+
+     big-agnes          kelty         marmot            msr           nemo 
+            22              7             10             10             10 
+    north-face            rei sierra-designs 
+             7             22              2 
+
+> table(tents$bestuse)
+
+   Backpacking     Carcamping Mountaineering 
+            59             25              6 
+
+> table(tents$seasons)
+
+3-4-season   3-season   4-season 
+         4         78          8 
+
+> table(tents$capacity)
+
+1-person 2-person 3-person 4-person 6-person 
+       9       33       18       16       14 
+
+> # what is the brand with less number of tents
+> least_tent <- sort(table(tents$brand), decreasing = FALSE)
+
+> least_tent[1]
+sierra-designs 
+             2 
+
+> # are there any tents of brand 'rei'?
+> # and if so, how many?
+> is.element('rei', tents$brand)
+[1] TRUE
+
+> sum(tents$brand == "rei")
+[1] 22
+
+> # are there any tents of brand 'mountain-hardwear'
+> # and if so, how many?
+> is.element('mountain-hardwear', tents$brand)
+[1] FALSE
+
+> sum(tents$brand == "mountain-hardwear")
+[1] 0
+
+> # how many 'rei' tents are intended to be
+> # used ('bestuse') for Mountaineering
+> sum(tents$brand == "rei" & tents$bestuse == "Mountaineering")
+[1] 2
+
+> # what unique brands have tents intended to be used for 'Mountaineering'
+> unique(tents$brand[(tents$bestuse == "Mountaineering")])
+[1] "north-face" "rei"        "msr"        "marmot"    
+
+> # =====================================================
+> # Statistical graphics of Qualitative Variables
+> # ====================================== .... [TRUNCATED] 
+
+> barplot(table(tents$seasons))
+
+> barplot(table(tents$capacity))
+
+> dotchart(table(tents$bestuse))
+
+> dotchart(table(tents$seasons))
+
+> dotchart(table(tents$capacity))
+
+> pie(table(tents$bestuse))
+
+> pie(table(tents$seasons))
+
+> pie(table(tents$capacity))
+
+> # =====================================================
+> # Plot challenge: 
+> # =====================================================
+> # Make a ba .... [TRUNCATED] 
+
+> barplot(sort(table(tents$brand)), horiz=TRUE, las=2, border=NA, xlim=c(0,25),
++         main="Brand")
+
+> # =====================================================
+> # More basic manipulations
+> # =====================================================
+> 
+>  .... [TRUNCATED] 
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+  180.0   300.0   355.0   376.3   487.4   600.0 
+
+> # summary of 'price' of rei tents
+> summary(tents[tents$brand == "rei", "price"])
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+   99.5   214.0   304.0   286.3   349.0   399.0 
+
+> # cross-table of seasons and bestuse
+> # install.packages("gmodels") if you dont have such library installed yet.
+> library(gmodels)
+
+> CrossTable(tents$seasons, tents$bestuse)
+
+ 
+   Cell Contents
+|-------------------------|
+|                       N |
+| Chi-square contribution |
+|           N / Row Total |
+|           N / Col Total |
+|         N / Table Total |
+|-------------------------|
+
+ 
+Total Observations in Table:  90 
+
+ 
+              | tents$bestuse 
+tents$seasons |    Backpacking |     Carcamping | Mountaineering |      Row Total | 
+--------------|----------------|----------------|----------------|----------------|
+   3-4-season |              3 |              1 |              0 |              4 | 
+              |          0.054 |          0.011 |          0.267 |                | 
+              |          0.750 |          0.250 |          0.000 |          0.044 | 
+              |          0.051 |          0.040 |          0.000 |                | 
+              |          0.033 |          0.011 |          0.000 |                | 
+--------------|----------------|----------------|----------------|----------------|
+     3-season |             55 |             23 |              0 |             78 | 
+              |          0.292 |          0.082 |          5.200 |                | 
+              |          0.705 |          0.295 |          0.000 |          0.867 | 
+              |          0.932 |          0.920 |          0.000 |                | 
+              |          0.611 |          0.256 |          0.000 |                | 
+--------------|----------------|----------------|----------------|----------------|
+     4-season |              1 |              1 |              6 |              8 | 
+              |          3.435 |          0.672 |         56.033 |                | 
+              |          0.125 |          0.125 |          0.750 |          0.089 | 
+              |          0.017 |          0.040 |          1.000 |                | 
+              |          0.011 |          0.011 |          0.067 |                | 
+--------------|----------------|----------------|----------------|----------------|
+ Column Total |             59 |             25 |              6 |             90 | 
+              |          0.656 |          0.278 |          0.067 |                | 
+--------------|----------------|----------------|----------------|----------------|
+
+ 
+
+> # =====================================================
+> # Bivariate Plots
+> # =====================================================
+> 
+> 
+> # use  .... [TRUNCATED] 
+
+> boxplot(weight~bestuse, data = tents, main = "Weight and Bestuse")
+
+> boxplot(weight~capacity, data = tents, main = "Weight and Capacity")
+
+> boxplot(weight~seasons, data = tents, main = "Weight and Seasons")
+
+> # make a scatter-plot of height and weight, using 
+> # 'capacity' as a factor for the color argument
+> plot(tents$height, tents$weight, col = factor .... [TRUNCATED] 
+
+> # get the same scatter plot but now pass 'bestuse'
+> # as a factor for the color argument
+> plot(tents$height, tents$weight, col = factor(tents$best .... [TRUNCATED] 
+
+> # remember that factors are internally stored as
+> # integer vectors. To get the integers associated to the 
+> # levels of a factor you can use uncl .... [TRUNCATED] 
+
+> # =====================================================
+> # Plot challenge: 
+> # =====================================================
+> 
+> 
+> # obt .... [TRUNCATED] 
+
+> # create a vector of colors for big-agnes tents according to 'bestuse':
+> # 'Carcamping' tents in color 'tomato'
+> # 'Backpacking' tents in color 'o .... [TRUNCATED] 
+
+> colors[big_agnes$bestuse == "Carcamping"] <- "tomato"
+
+> colors[big_agnes$bestuse == "Backpacking"] <- "orange"
+
+> big_agnes$color <- colors
+
+> # Make a scatter plot of 'weight' and 'height' (of 'big-agnes' tents)
+> # The background of the entire plot must be of color 'gray95'
+> # Instead of .... [TRUNCATED] 
+
+> #type='n' here is to erase the points inside the graph
+> plot(big_agnes$weight, big_agnes$height, main = "weight and height",
++     type="n")
+
+> legend(6700, 130, legend=c("Carcamping", "Backpacking"),
++        col=c("tomato", "orange"), lty=1:2, cex=0.8)
+
+> text(big_agnes$weight, big_agnes$height, labels=big_agnes$name, cex= 0.7,  
++      col = big_agnes$color)
+Warning messages:
+1: In dotchart(table(tents$bestuse)) :
+  'x' is neither a vector nor a matrix: using as.numeric(x)
+2: In dotchart(table(tents$seasons)) :
+  'x' is neither a vector nor a matrix: using as.numeric(x)
+3: In dotchart(table(tents$capacity)) :
+  'x' is neither a vector nor a matrix: using as.numeric(x)
+> 

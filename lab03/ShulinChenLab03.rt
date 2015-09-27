@@ -1,0 +1,313 @@
+> source('~/programming/stat133/lab03/lab03.R', echo=TRUE)
+
+> # =====================================================
+> # Stat133: Lab 3
+> # Author: Gaston Sanchez
+> # Description: Reading data tables
+> # ===== .... [TRUNCATED] 
+[1] "/Users/Shulin/programming/stat133/lab03"
+
+> setwd("/Users/Shulin/programming/stat133/lab03")
+
+> # read the data 'states.txt' in R using read.table()
+> states <- read.table(file = "states.txt", header = TRUE)
+
+> # inspect states using the following functions:
+> str(states)
+'data.frame':	4 obs. of  4 variables:
+ $ state  : Factor w/ 4 levels "California","New York",..: 1 2 4 3
+ $ initial: Factor w/ 4 levels "CA","NC","NY",..: 1 3 4 2
+ $ capital: Factor w/ 4 levels "Albany","Austin",..: 4 1 2 3
+ $ area   : int  163707 54475 268601 NA
+
+> states
+           state initial    capital   area
+1     California      CA Sacramento 163707
+2       New York      NY     Albany  54475
+3          Texas      TX     Austin 268601
+4 North Carolina      NC    Raleigh     NA
+
+> View(states)
+
+> dim(states)
+[1] 4 4
+
+> summary(states)
+            state   initial       capital       area       
+ California    :1   CA:1    Albany    :1   Min.   : 54475  
+ New York      :1   NC:1    Austin    :1   1st Qu.:109091  
+ North Carolina:1   NY:1    Raleigh   :1   Median :163707  
+ Texas         :1   TX:1    Sacramento:1   Mean   :162261  
+                                           3rd Qu.:216154  
+                                           Max.   :268601  
+                                           NA's   :1       
+
+> # =====================================================
+> # Data: "Body Mass of Late Quarternary Mammals"
+> # ====================================== .... [TRUNCATED] 
+
+> df <- read.table(file = url, header = FALSE, 
++                  sep = "\t", na.strings = -999)
+
+> # Instead of read.table() what other function could you use?
+> df <- read.delim(file = url, na.strings = -999)
+
+> # inspect df using the following functions:
+> str(df)
+'data.frame':	5730 obs. of  9 variables:
+ $ AF           : Factor w/ 8 levels "Af","AF","AUS",..: 2 2 2 2 2 2 2 2 2 2 ...
+ $ extant       : Factor w/ 4 levels "extant","extinct",..: 1 1 1 1 1 2 2 1 1 1 ...
+ $ Artiodactyla : Factor w/ 29 levels "Artiodactyla",..: 1 1 1 1 1 1 1 1 1 1 ...
+ $ Bovidae      : Factor w/ 152 levels "Abrocomidae",..: 12 12 12 12 12 12 12 12 12 12 ...
+ $ Addax        : Factor w/ 1246 levels "Abditomys","Abrawayaomys",..: 10 22 38 40 53 53 53 122 161 161 ...
+ $ nasomaculatus: Factor w/ 3450 levels "abae","abbreviatus",..: 1934 482 646 1685 1884 395 260 3099 3363 1420 ...
+ $ X4.85        : num  4.72 5.23 4.45 4.68 4.59 4.53 4.6 5.95 5 5 ...
+ $ X70000.3     : num  52500 171002 28050 48000 39050 ...
+ $ X60          : Factor w/ 277 levels "1","1, 11","1, 11, 14",..: 222 222 213 244 213 1 137 NA NA 226 ...
+
+> dim(df)
+[1] 5730    9
+
+> nrow(df)
+[1] 5730
+
+> ncol(df)
+[1] 9
+
+> head(df)
+  AF  extant Artiodactyla Bovidae      Addax nasomaculatus X4.85 X70000.3
+1 AF  extant Artiodactyla Bovidae  Aepyceros      melampus  4.72  52500.1
+2 AF  extant Artiodactyla Bovidae Alcelaphus    buselaphus  5.23 171001.5
+3 AF  extant Artiodactyla Bovidae Ammodorcas       clarkei  4.45  28049.8
+4 AF  extant Artiodactyla Bovidae Ammotragus        lervia  4.68  48000.0
+5 AF  extant Artiodactyla Bovidae Antidorcas   marsupialis  4.59  39049.9
+6 AF extinct Artiodactyla Bovidae Antidorcas         bondi  4.53  34000.0
+     X60
+1 63, 70
+2 63, 70
+3     60
+4     75
+5     60
+6      1
+
+> #if you want to get the first 3, use head(df,3)
+> tail(df)
+     AF  extant Artiodactyla         Bovidae          Addax nasomaculatus
+5725 SA extinct    Xenarthra    Mylodontidae     Scelidodon          spp.
+5726 SA extinct    Xenarthra    Mylodontidae Scelidotherium leptocephalum
+5727 SA  extant    Xenarthra Myrmecophagidae       Cyclopes    didactylus
+5728 SA  extant    Xenarthra Myrmecophagidae   Myrmecophaga    tridactyla
+5729 SA  extant    Xenarthra Myrmecophagidae       Tamandua      mexicana
+5730 SA  extant    Xenarthra Myrmecophagidae       Tamandua  tetradactyla
+     X4.85  X70000.3        X60
+5725  6.00 1000000.0         11
+5726  6.05 1119000.0 39, 43, 55
+5727  2.52     329.5         60
+5728  4.35   22333.2         60
+5729  3.62    4210.0         60
+5730  3.74    5515.1         60
+
+> summary(df)
+       AF                extant           Artiodactyla 
+ Insular:1484   extant      :5387   Rodentia    :2158  
+ EA     :1033   extinct     : 242   Chiroptera  :1367  
+ AF     :1032   historical  :  84   Insectivora : 471  
+ SA     : 977   introduction:  17   Carnivora   : 406  
+ NA     : 779                       Artiodactyla: 300  
+ AUS    : 346                       Primates    : 281  
+ (Other):  79                       (Other)     : 747  
+             Bovidae              Addax        nasomaculatus 
+ Muridae         :1422   Crocidura   : 158   spp.     :  26  
+ Vespertilionidae: 462   Myotis      : 116   australis:  22  
+ Soricidae       : 337   Rhinolophus :  94   macrotis :  18  
+ Sciuridae       : 304   Sorex       :  79   minor    :  16  
+ Phyllostomidae  : 237   Hipposideros:  78   capensis :  15  
+ (Other)         :2958   Rattus      :  77   thomasi  :  15  
+ NA's            :  10   (Other)     :5128   (Other)  :5618  
+     X4.85          X70000.3              X60      
+ Min.   :0.260   Min.   :        2   153    :1071  
+ 1st Qu.:1.360   1st Qu.:       23   60     : 687  
+ Median :2.070   Median :      118   61     : 505  
+ Mean   :2.484   Mean   :   201708   68     : 314  
+ 3rd Qu.:3.408   3rd Qu.:     2581   59     : 222  
+ Max.   :8.280   Max.   :190000000   (Other):1554  
+ NA's   :1372    NA's   :1372        NA's   :1377  
+
+> # Check the metadata at:
+> # http://www.esapubs.org/archive/ecol/E084/094/metadata.htm
+> # Look for the variable definitions:
+> #   Continent
+> #    .... [TRUNCATED] 
+
+> df2 <- read.delim(file = url, na.strings = -999, 
++                  nrows = 100, col.names = df_names)
+
+> str(df2, vec.len = 1)
+'data.frame':	100 obs. of  9 variables:
+ $ continent: Factor w/ 1 level "AF": 1 1 ...
+ $ status   : Factor w/ 3 levels "extant","extinct",..: 1 1 ...
+ $ order    : Factor w/ 1 level "Artiodactyla": 1 1 ...
+ $ family   : Factor w/ 6 levels "Bovidae","Camelidae",..: 1 1 ...
+ $ genus    : Factor w/ 40 levels "Aepyceros","Alcelaphus",..: 1 2 ...
+ $ species  : Factor w/ 97 levels "adersi","africanus",..: 59 12 ...
+ $ logmass  : num  4.72 5.23 ...
+ $ combmass : num  52500 ...
+ $ reference: Factor w/ 14 levels "1","1, 2","116",..: 10 10 ...
+
+> head(df2)
+  continent  status        order  family      genus     species logmass
+1        AF  extant Artiodactyla Bovidae  Aepyceros    melampus    4.72
+2        AF  extant Artiodactyla Bovidae Alcelaphus  buselaphus    5.23
+3        AF  extant Artiodactyla Bovidae Ammodorcas     clarkei    4.45
+4        AF  extant Artiodactyla Bovidae Ammotragus      lervia    4.68
+5        AF  extant Artiodactyla Bovidae Antidorcas marsupialis    4.59
+6        AF extinct Artiodactyla Bovidae Antidorcas       bondi    4.53
+  combmass reference
+1  52500.1    63, 70
+2 171001.5    63, 70
+3  28049.8        60
+4  48000.0        75
+5  39049.9        60
+6  34000.0         1
+
+> summary(df2)
+ continent        status            order                family  
+ AF:100    extant    :89   Artiodactyla:100   Bovidae       :89  
+           extinct   : 9                      Camelidae     : 1  
+           historical: 2                      Cervidae      : 2  
+                                              Giraffidae    : 3  
+                                              Hippopotamidae: 2  
+                                              Suidae        : 3  
+                                                                 
+         genus         species      logmass         combmass      
+ Cephalophus:18   dorcas   : 2   Min.   :3.400   Min.   :   2500  
+ Gazella    :13   gazella  : 2   1st Qu.:4.295   1st Qu.:  19750  
+ Tragelaphus: 7   niger    : 2   Median :4.720   Median :  52500  
+ Kobus      : 5   adersi   : 1   Mean   :4.734   Mean   : 148942  
+ Madoqua    : 4   africanus: 1   3rd Qu.:5.230   3rd Qu.: 170001  
+ Antidorcas : 3   algericus: 1   Max.   :6.150   Max.   :1417490  
+ (Other)    :50   (Other)  :91   NA's   :1       NA's   :1        
+   reference 
+ 63, 70 :42  
+ 60     :23  
+ 65     :12  
+ 1      : 3  
+ 2      : 3  
+ (Other):13  
+ NA's   : 4  
+
+> #how many unique species are there?
+> #length(unique(df2$species))
+> #
+> length(unique(df2[,"species"]))
+[1] 97
+
+> #what are the names of the continents in the dataset?
+> unique(df2["continent"])
+  continent
+1        AF
+
+> # Remove the column 'reference'
+> df2$reference <- NULL
+
+> # create a new variable 'log2mass' (log base 2 of combmass)
+> df2$log2mass <- log(df2$combmass)
+
+> # =====================================================
+> # Data: "Brac 2006 - fish data"
+> # =====================================================
+ .... [TRUNCATED] 
+
+> fish <- read_tsv(fish_url, col_names = TRUE, skip = 1)
+
+> # inspect df using the following functions:
+> str(fish)
+Classes ‘tbl_df’, ‘tbl’ and 'data.frame':	131 obs. of  6 variables:
+ $ Day        : int  1 1 1 1 1 1 1 1 1 1 ...
+ $ Species    : int  15 6 7 10 14 15 15 15 12 15 ...
+ $ East       : int  1 2 2 3 3 4 4 5 5 6 ...
+ $ North      : int  1 1 1 1 1 1 1 1 1 1 ...
+ $ Abundance  : int  2 1 1 4 1 1 1 1 1 1 ...
+ $ Probability: int  1 1 1 1 1 1 1 1 1 1 ...
+
+> dim(fish)
+[1] 131   6
+
+> nrow(fish)
+[1] 131
+
+> ncol(fish)
+[1] 6
+
+> head(fish)
+  Day Species East North Abundance Probability
+1   1      15    1     1         2           1
+2   1       6    2     1         1           1
+3   1       7    2     1         1           1
+4   1      10    3     1         4           1
+5   1      14    3     1         1           1
+6   1      15    4     1         1           1
+
+> tail(fish)
+    Day Species East North Abundance Probability
+126   3       5   18     1         1           1
+127   3      15   19     1         1           1
+128   3      12   19     1        10           1
+129   3       9   20     1         1           1
+130   3      14   20     1         1           1
+131   3      10   20     1         1           1
+
+> summary(fish)
+      Day           Species           East           North  
+ Min.   :1.000   Min.   : 1.00   Min.   : 1.00   Min.   :1  
+ 1st Qu.:1.000   1st Qu.: 9.00   1st Qu.: 6.00   1st Qu.:1  
+ Median :2.000   Median :12.00   Median :11.00   Median :1  
+ Mean   :2.031   Mean   :11.23   Mean   :10.83   Mean   :1  
+ 3rd Qu.:3.000   3rd Qu.:14.50   3rd Qu.:16.00   3rd Qu.:1  
+ Max.   :3.000   Max.   :15.00   Max.   :20.00   Max.   :1  
+   Abundance       Probability
+ Min.   : 1.000   Min.   :1   
+ 1st Qu.: 1.000   1st Qu.:1   
+ Median : 1.000   Median :1   
+ Mean   : 1.679   Mean   :1   
+ 3rd Qu.: 2.000   3rd Qu.:1   
+ Max.   :10.000   Max.   :1   
+
+> #what are the column names?
+> colnames(fish)
+[1] "Day"         "Species"     "East"        "North"       "Abundance"  
+[6] "Probability"
+
+> #how many unique fish species are there?
+> length(unique(fish$Species))
+[1] 15
+
+> #how many days does this data set span?
+> max(fish$Day) - min(fish$Day) + 1
+[1] 3
+
+> #for which day do we have the most data?
+> t <- sort(table(fish$Day), decreasing = TRUE)
+
+> names(t[1])
+[1] "2"
+
+> # =====================================================
+> # Data: SF Open Data "Permit Types"
+> # ================================================== .... [TRUNCATED] 
+
+> # try to use read.csv() and see what happens
+> permits <- read.csv(permits_url)
+
+> # the problem has to do with the Secured HTTP url (i.e. "https://...")
+> # read.csv() cannot handle 'https'
+> 
+> 
+> # OPTION 1
+> # One solution is t .... [TRUNCATED] 
+Error in file(file, "rt") : cannot open the connection
+In addition: Warning messages:
+1: In read.table(file = "states.txt", header = TRUE) :
+  incomplete final line found by readTableHeader on 'states.txt'
+2: In file(file, "rt") :
+  cannot open file 'Permit_Types.csv': No such file or directory
