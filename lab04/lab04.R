@@ -83,38 +83,39 @@ dotchart(sort(sc$wins), labels = sc$team[order(sc$wins)],
 # =====================================================
 
 # boxplot of 'losses'
-
+boxplot(sc$losses)
 
 # horizontal boxplot of 'losses'
-
-
+boxplot(sc$losses, horizontal = TRUE)
 
 # histogram with some color
-
+hist(sc$losses, col = "red")
 
 # kernel density curve
-
+plot(density(sc$losses))
 
 # in order to color the area under the curve you
 # need to use polygon()
-
-
+density_losses <- density(sc$losses)
+plot(density_losses)
+polygon(density_losses, border = "red" , col = "green")
 
 
 # dot-chart of losses
-
+dotchart(sc$losses)
 
 # dot-chart of losses with team labels
-
+dotchart(sc$losses, labels=sc$team)
 
 # ranked dot-chart of losses with team labels
-
+dotchart(sort(sc$losses), labels=sc$team[order(sc$losses)])
 
 # same ranked dot-chart of losses with team labels,
 # with colored dots in 'blue'
-
+dotchart(sort(sc$losses), labels=sc$team[order(sc$losses)], bg="blue")
 
 # same ranked dot-chart with a title
+dotchart(sort(sc$losses), labels=sc$team[order(sc$losses)], bg="blue", main = "TeamLosses")
 
 
 
@@ -148,7 +149,8 @@ boxplot(sc[ , c('wins', 'losses')])
 # Get similar plots for 'wins' and 'draws'
 # Get similar plots for 'losses' and 'draws'
 # =====================================================
-
+plot(sc$wins, sc$draws, xlim = c(0,35), pch=14, xlab="Wins", ylab="Loses")
+text(sc$wins, sc$draws, labels = sc$team, pos = 4)
 
 
 

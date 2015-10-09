@@ -69,9 +69,17 @@ ggplot(tents, aes(x = capacity, y = price)) +
 # Try generating histograms, density curves, 
 # and boxplots for either 'height' or 'weight'
 
+#histogram
+ggplot(data=tents, aes(x=weight)) +
+  geom_histogram()
 
+#density curve
+ggplot(data=tents, aes(x=weight)) + 
+  geom_density()
 
-
+#boxplot
+ggplot(data=tents, aes(x=weight, y=price)) + 
+  geom_boxplot()
 
 # =====================================================
 # Qualitative Variables:
@@ -89,6 +97,7 @@ ggplot(tents, aes(x = brand)) +
 ggplot(tents, aes(x = capacity)) + 
   geom_bar()
 
+#very colorful..
 # colored bar chart of brand
 ggplot(tents, aes(x = brand, fill = brand)) + 
   geom_bar()
@@ -96,10 +105,14 @@ ggplot(tents, aes(x = brand, fill = brand)) +
 
 # Your Turn!
 # Try generating barcharts for 'bestuse' and seasons
-
+ggplot(tents, aes(x=bestuse)) + 
+  geom_bar()
+ggplot(tents, aes(x=seasons)) + 
+  geom_bar()
 
 ## generate a barchart for bestuse colored by brand
-
+ggplot(tents, aes(x=bestuse, fill=brand)) + 
+  geom_bar()
 
 
 # =====================================================
@@ -121,10 +134,16 @@ ggplot(tents, aes(x = weight, group = bestuse)) +
 
 ### Your turn!
 ## densities of height by capacity (with fill color by capacity)
-
+ggplot(tents, aes(x=height, group=capacity)) +
+  geom_density(aes(fill=capacity), alpha=0.6)
 
 ##boxplot of height by capacity (with fill color by bestuse)
+ggplot(tents, aes(x=capacity, y=height, fill=bestuse)) +
+  geom_boxplot()
 
+#toask:wired it doesnt work right
+#ggplot(tents, aes(x=height, y=capacity, fill=bestuse)) +
+ # geom_boxplot()
 
 # =====================================================
 # Graphics with 'ggplot2'

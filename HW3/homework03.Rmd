@@ -1,6 +1,6 @@
 ---
 title: "Stat 133 HW03: Flow Control Structures and Functions with R"
-author: "Your name and SID"
+author: "ShulinChen 25940541"
 output: pdf_document
 ---
 
@@ -21,11 +21,15 @@ Write a function ```last()``` that takes a vector (or factor) and returns the la
 ```{r}
 # write your function
 # last()
+last <- function(v) {
+  #specify only one element so n=1
+  return (tail(v, n=1))
+}
 
 ```
 
 Test it:
-```{r, eval = FALSE}
+```{r, eval = True}
 last(c('A', 'E', 'I', 'O', 'U'))
 last(c(2, 4, 6, 8, 10))
 ```
@@ -39,11 +43,18 @@ Write a function ```multfive()``` that takes a number and determines whether the
 ```{r}
 # write your function
 # multfive()
+multfive <- function(n) {
+  if (n %% 5 == 0) {
+    return ("it is multiple of five")
+  } else {
+    return ("it's not a multiple of 5") 
+  }
+}
 
 ```
 
 Test it:
-```{r, eval=FALSE}
+```{r, eval=TRUE}
 # multiple of five
 multfive(10)
 
@@ -70,11 +81,18 @@ Define your function with the following requirements:
 # write your function
 # histogram
 
+##to do
+histogram <- function(v) {
+  hist(v, col = "gray90")
+  lines(v.min)
+}
+
 ```
 
 Test it:
 ```{r, fig.width=5, fig.height=4, eval = FALSE}
 histogram(mtcars$mpg)
+
 ```
 
 
@@ -100,11 +118,26 @@ Write a function that converts from Fahrenheit degrees into each type of the fou
 
 ```{r}
 # write your functions
+to_celsius <- function(f) {
+  return ((f-32) * 5/9)
+}
+
+to_kelvin <- function(f) {
+  return ( (f + 459.67) * 5/9)
+}
+
+to_reaumur <- function(f) {
+  return ((f=32) * 4/9)
+}
+
+to_rankine <- function(f) {
+  return (f + 459.67)
+}
 
 ```
 
 Test them:
-```{r, eval=FALSE}
+```{r, eval=True}
 to_celsius(34)
 to_kelvin(34)
 to_reaumur(34)
@@ -119,6 +152,15 @@ Create a function ```convert()``` that converts Fahrenheit degrees into the spec
 ```{r}
 # write your function
 # convert()
+convert <- function(f, scale) {
+  switch(
+    scale,
+    "celsius" = to_celsius(f),
+    "kelvin" = to_kelvin(f),
+    "reaumur" = to_reaumur(f),
+    "rankine" = to_rankine(f)
+  )
+}
 
 ```
 
@@ -139,6 +181,19 @@ Write a function ```permute()``` that calculates the number of permutations of $
 ```{r}
 # write your function
 # permute()
+permute <- function(k, n) {
+  #coerce k and n as integer
+  as.integer(k)
+  as.integer(n)
+  if (k < 0 | n < 0) {
+    stop("no negative number allwed")
+  } else if (n < k) {
+    return (0)
+  } else {
+    return (choose(n, k))
+  }
+  
+}
 
 ```
 
@@ -166,6 +221,13 @@ $$
 ```{r}
 # write your function
 # average()
+average <- function(v) {
+  sum <- 0
+  for (i in v) {
+    sum <- sum + i
+  }
+  return (sum / length(v))
+}
 
 ```
 
@@ -190,6 +252,7 @@ Write a function ```geomean()``` that computes the geometric mean of a vector of
 ```{r}
 # write your function
 # geomean()
+geomean <- function(v) {} 
 
 ```
 

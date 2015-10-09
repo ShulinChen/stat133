@@ -1,56 +1,28 @@
 ---
-title: "lab06"
-author: "Your Name Here"
+title: "STAT 133: Lab 6"
+author: "Shulin Chen"
 output: html_document
 ---
 
-Before we begin, make sure that you have installed the R Markdown package. Use the following command:
-
-```{r, eval = FALSE}
-install.packages("rmarkdown")
-```
-
-Here `eval = FALSE` is used to ensure that this R chunk is not evaluated when the document is generated.
-
-## Introduction to R Markdown
-
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
-
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
-
-```{r}
-summary(cars)
-```
-
-You can also embed plots, for example:
-
-```{r, echo=FALSE}
-plot(cars)
-```
-
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
-
-## Control Flow Structures
-
-Onto the lab!
-
 ### Conditional Expressions
+library("RMark")
 
 If-else statements are perhaps the simplest type of control flow structure:
 
 ```{r}
-x <- 1 # Change this value!
+x <- 10 # Change this value!
 if (x > 0) {
   print("positive")
 } else {
   print("not positive")
 }
+
 ```
 
 Of course, the else is not necessary (if you don't want anything to occur otherwise), or you can chain multiple if-else statements:
 
 ```{r}
-y <- 1 # Change this value!
+y <- 10 # Change this value!
 if (y > 0) {
   print("positive")
 } else if (y < 0) {
@@ -67,12 +39,12 @@ Write R code that will "squish" a number into the interval [0, 100], so that a n
 ```{r}
 z <- 100*pi
 # Fill in the following if-else statements. You may (or may not) have to add or subtract else if or else statements.
-if (TRUE) { # Replace TRUE with a condition.
-  
-} else if (TRUE) { # Replace TRUE with a condition.
-  
+if (z > 100) { # Replace TRUE with a condition.
+  z <- 100;
+} else if (z < 0) { # Replace TRUE with a condition.
+  z = 0;
 } else {
-  
+  return (z);
 }
 ```
 
@@ -80,7 +52,7 @@ If you find yourself using many if-else statements with identical structure for 
 
 ```{r}
 # Convert the day of the week into a number.
-day <- "Tuesday" # Change this value!
+day <- "Sunday" # Change this value!
 switch(day, # The expression to be evaluated.
   Sunday = 1,
   Monday = 2,
@@ -113,7 +85,11 @@ Write a switch statement to determine if a given lowercase letter is a vowel. As
 ```{r}
 letter <- "e" # Change this value!
 switch(letter,
-  a = "vowel") # Modify as necessary.
+  a = ,
+  e = ,
+  i = ,
+  o = ,
+  u = "vowel") # Modify as necessary.
 ```
 
 ### Loops
@@ -124,7 +100,7 @@ The simplest type of loop in R is the repeat loop, which will repeatedly evaluat
 
 ```{r}
 # Divide a number by 2 until it becomes odd.
-val_rep <- 898128000 # Change this value!
+val_rep <- 10 # Change this value!
 repeat {
   print(val_rep)
   if (val_rep %% 2 == 1) { # If val_rep is odd,
@@ -138,7 +114,7 @@ repeat {
 Often you will want to perform a loop until some condition is satisfied, or as long as a condition as satisfied. In that case, a while loop may be more appropriate.
 
 ```{r}
-val_while <- 898128000 # Change this value!
+val_while <- 10 # Change this value!
 while (val_while %% 2 == 0) { # Continue the loop as long as val_while is even.
   print(val_while)
   val_while <- val_while / 2
@@ -152,14 +128,19 @@ Your turn!
 Write R code which multiplies a positive number by 3 and adds 1 until the result is greater than 10000. For example, 2015 -> 6046 -> 18139. Write both a repeat loop and a while loop.
 
 ```{r}
-n_rep <- 314 # Change this value!
+n_rep <- 2015 # Change this value!
 repeat {
-  break # Replace this with your code.
+  print(n_rep)
+  if (n_rep > 10000) break 
+  n_rep <- n_rep * 3 + 1
 }
-n_while <- 314 # Change this value!
-while (FALSE) { # Replace FALSE with your stopping condition.
-  # Fill in.
+
+n_while <- 2015 # Change this value!
+while (n_while < 10000) { # Replace FALSE with your stopping condition.
+  print(n_while)
+  n_while <- n_while * 3 + 1
 }
+print(n_while)
 ```
 
 Sometimes instead of performing an action until a condition is satisfied, you just want to perform it a specified number of times. In these cases, a for loop is appropriate.
@@ -174,8 +155,181 @@ Your turn again!
 Write a for loop to add 1 to every element of a vector.
 
 ```{r}
-vec <- c(3, 1, 4) # Change this value!
-for (j in c()) { # Replace c() with an appropriate sequence.
+vec <- c(2, 3, 4) # Change this value!
+for (j in (1:length(vec))) { 
   # Fill in.
+  vec[j] = vec[j] + 1
 }
+print(vec)
+
+#or just do print(vec + 1)
+
+```
+
+### Basic Functions, with Control Flow Structures
+
+Often you will find that it is easier to begin writing code for a specific task, with specific variables, before generalizing the code into a function. Earlier in the lab, we saw the following code, which divides a positive integer by 2 until it becomes odd.
+
+```{r}
+x <- 10 # Change this value!
+while (x %% 2 == 0) {
+  print(x)
+  x <- x / 2
+}
+print(x)
+```
+
+Your turn!
+Now generalize the above code to create a function which performs the same operation. (You should change very little.)
+
+```{r}
+reduce <- function(x) {
+  # Fill in.
+  while (x %% 2 == 0) {
+    print(x)
+    x <- x / 2
+  }
+  print(x)
+  
+}
+
+reduce(10)
+```
+
+How about something a little bit more complicated? Write a function ```f``` which, given a positive integer ```n```, returns ```n / 2``` if ```n``` was even or ```3 * n + 1``` if ```n``` was odd.
+
+```{r}
+#return ()..must have a parentheses
+f <- function(n) {
+  # Fill in.
+  if (n %% 2 == 0) {
+    return (n / 2);
+  } 
+  else {
+    return (3 * n + 1);
+  }
+}
+
+f(6)
+f(19)
+f(27)
+```
+
+Now create function ```g``` which applies ```f()``` to a positive integer ```n``` until it becomes 1, and returns the number of iterations until this occurs.
+
+```{r}
+g <- function(n) {
+  # Fill in.
+  count <- 0;
+  while (n != 1) {
+    n = f(n);
+    #how to do count += 1;
+    count <- count + 1;
+  } 
+  return (count)
+}
+
+g(6)
+g(19)
+g(27)
+```
+
+If you didn't earlier, try also writing the same function, but now create ```f()``` as a nested function.
+
+```{r}
+h <- function(n) {
+  f <- function(m) {
+    if (m %% 2 == 0) {
+      return (m / 2);
+    } 
+    else {
+      return (3 * m + 1);
+    }
+  }
+  # Fill in.
+  count <- 0;
+  while (n != 1) {
+    n = f(n);
+    #how to do count += 1;
+    count <- count + 1;
+  } 
+  return (count)
+}
+
+h(6)
+h(19)
+h(27)
+```
+
+### Default Arguments
+
+As you probably know by now, many functions come with default arguments, which can be left unspecified without affecting the execution of the function.
+
+The following function attempts to compute the length of the hypotenuse of a right triangle, but will accept one or two leg lengths.
+
+```{r}
+pythagoras <- function(a, b = a) {
+  return(sqrt(a^2 + b^2))
+}
+
+pythagoras(3, 4)
+pythagoras(5)
+```
+
+__Your turn!__
+Write a function which adds together the elements of a vector raised to a certain power. Use a loop instead of vectorized operations. Include two arguments: ```vec``` and ```pow```. Give ```pow``` a default value of 2.
+
+```{r, eval = FALSE}
+# Remove eval = FALSE or set eval = TRUE when you have completed this function.
+powersum <- function(vec, pow = 2) { # Fill in arguments.
+  # Fill in.
+  sum <- 0;
+  for (i in (1:length(vec))) {
+    sum <- sum + vec[i]^pow
+  }
+  return (sum);
+}
+
+powersum(1:5) # Should return 55.
+powersum(1:5, 4) # Should return 979.
+```
+
+### Ellipsis (...)
+
+Finally, in addition to normal and default arguments, the ```...``` argument allows a function to take any number of arguments.
+
+The following function simply counts the number of arguments given.
+
+```{r}
+countargs <- function(...) {
+  print(paste("This function received", length(list(...)), "arguments."))
+}
+
+countargs(0)
+countargs(1L, 5, 3 + 5i, TRUE, "yosemite")
+countargs(c(1, 2, 3, 4, 5), factor(c("one", "two", "three")))
+```
+
+More commonly, however, the ```...``` is simply passed as optional arguments to another function.
+
+__Your turn!__
+Write a function which produces a histogram of a random process. The first argument should be ```n```, the number of observations. The second argument should be one of the following: ```"Uniform", "Binomial", "Poisson"```. These should correspond, respectively, to: ```runif(n), rbinom(n, 100, 0.5), rpois(n, 1)```. Finally, include the ```...``` argument to be passed into the histogram function.
+
+```{r, eval = FALSE}
+# Remove eval = FALSE or set eval = TRUE when you have completed this function.
+randhist <- function(n, fn, ...) { # Fill in arguments.
+  # Fill in.
+  if (fn == "Uniform"){
+    n <- runif(n)
+  }else if (fn == "Binomial") {
+    n <- rbinom(n, 100, 0.5)
+  } else if (fn == "Poisson") {
+    n <- rpois(n, 1);
+  }
+  hist(n, ...);
+}
+
+randhist(10, "Uniform", breaks = seq(0, 1, 0.1))
+randhist(10, "Binomial", col = "blue")
+randhist(10, "Poisson")
 ```
